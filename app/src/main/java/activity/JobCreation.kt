@@ -1,34 +1,32 @@
 package activity
 
+import android.app.ProgressDialog
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import com.crm_copy.connection.ConnectionClass
-import com.example.stockauditwayinfotech.R
-import com.example.stockauditwayinfotech.databinding.ActivityMainBinding
-import com.example.stockauditwayinfotech.databinding.ActivityTestStockTrackingBinding
+import com.example.stockauditwayinfotech.databinding.ActivityJobCreationBinding
 import kotlinx.android.synthetic.main.activity_main.*
 import java.sql.Statement
 
-class TestStockTracking : AppCompatActivity() {
-    private val context: Context = this@TestStockTracking
+class JobCreation : AppCompatActivity() {
+    private val context: Context = this@JobCreation
     private lateinit var connectionClass: ConnectionClass
-    private lateinit var binding: ActivityTestStockTrackingBinding
+    private lateinit var binding: ActivityJobCreationBinding
     private lateinit var statement: Statement
+    var progressDialog: ProgressDialog? =null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityTestStockTrackingBinding.inflate(layoutInflater)
+        binding = ActivityJobCreationBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        imgback.setOnClickListener {
+            onBackPressed()
 
-        binding.btnSave.setOnClickListener {
-            var barCode = binding.adtxt.text.toString().trim()
-            Log.e("hh","done$barCode")
-            checkSerialNum(barCode)
         }
-
     }
+
 
     private fun checkSerialNum(barCode: String) {
         try {
@@ -57,4 +55,5 @@ class TestStockTracking : AppCompatActivity() {
 
 
     }
+
 }

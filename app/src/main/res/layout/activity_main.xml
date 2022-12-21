@@ -100,9 +100,19 @@
             android:layout_weight="0.5"
             android:background="@drawable/spinner_bg"
             android:hint="Qty"
+            android:text="1"
             android:inputType="text"
             android:paddingHorizontal="5dp"
             android:textColor="@color/black" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/btn_bg"
+            android:paddingHorizontal="5dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:textColorHint="@color/white"
+            android:hint="Add Qty"/>
 
 
     </LinearLayout>
@@ -140,14 +150,48 @@
                         android:layout_height="match_parent"
                         android:background="@color/black">
                     </View>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="10dp"
+            android:layout_weight=".2"
+            android:text="Date/Time"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:textSize="13sp">
+        </TextView>
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:layout_gravity="start"-->
+<!--            android:gravity="center"-->
+<!--            android:padding="2dp"-->
+<!--            android:layout_weight=".2"-->
+<!--            android:text="Job Number"-->
+<!--            android:textColor="@color/white"-->
+<!--            android:textSize="13sp"-->
+<!--            android:textStyle="bold" />-->
+<!--        <View-->
+<!--            android:layout_width="1dp"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:background="@color/black">-->
+<!--        </View>-->
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/black">
+        </View>
                     <TextView
+                        android:id="@+id/txt_barcode"
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
                         android:layout_gravity="start"
                         android:gravity="center"
                         android:padding="2dp"
                         android:layout_weight=".2"
-                        android:text="S.R. No."
+                        android:text="BarCode No."
                         android:textColor="@color/white"
                         android:textSize="13sp"
                         android:textStyle="bold" />
@@ -176,20 +220,8 @@
                         android:background="@color/black">
 
                     </View>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:padding="10dp"
-                        android:layout_weight=".2"
-                        android:text="Date / Time"
-                        android:textStyle="bold"
-                        android:textColor="@color/white"
-                        android:textSize="13sp">
-                    </TextView>
 
-                </LinearLayout>
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvrecyclerView"

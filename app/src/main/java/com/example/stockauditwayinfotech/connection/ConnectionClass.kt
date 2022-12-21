@@ -15,7 +15,7 @@ class ConnectionClass(private val context: Context)
         private const val ip = "43.230.201.20" //server-> 43.230.201.20 // 192.168.1.60
         private const val port = "1232" //server-> 1232 // 1433
         private const val classes = "net.sourceforge.jtds.jdbc.Driver"
-        private const val database = "KrishnaPaper" //KrishnaPaper //SoftwareClouds
+        private const val database = "Mayank" //KrishnaPaper //SoftwareClouds
         // WayinfotechInventory //LatMayank //Mayank
         private const val username = "sa"
         private const val password = "Yu6SBA5s4u#zcT6%e" //server -> Yu6SBA5s4u#zcT6%e //root

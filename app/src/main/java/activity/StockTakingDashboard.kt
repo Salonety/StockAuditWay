@@ -18,7 +18,7 @@ class StockTakingDashboard : AppCompatActivity() {
             startActivity(Intent(context,MainActivity::class.java))
         }
         binding.cardJobcreation.setOnClickListener {
-            startActivity(Intent(context, TestStockTracking::class.java))
+            startActivity(Intent(context, JobCreation::class.java))
         }
     }
 

@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="activity.JobCreation"
+    android:orientation="vertical">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/mainColor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imgback"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_margin="5sp"
+            android:background="@drawable/ic_baseline_arrow_back_24"
+            android:backgroundTint="@color/white">
+
+        </com.google.android.material.imageview.ShapeableImageView>
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Job Creation"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/tvDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginEnd="10dp"
+            android:text="DATE"
+            android:textColor="@color/white" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolBar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginRight="10sp"
+                android:layout_marginLeft="10sp"
+                android:layout_marginTop="5sp"
+                android:layout_weight="1"
+                android:background="@drawable/spinner_bg">
+
+                <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                    android:id="@+id/spinnerUsername"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:hintText="Created By" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/edtJobNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/spinner_bg"
+                    android:hint="Job Number"
+                    android:inputType="text"
+                    android:paddingHorizontal="5dp"
+                    android:textColor="@color/black" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/spinner_bg"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:gravity="center"
+                        android:text="Date-"
+                        android:textColor="@color/black"
+                        android:textStyle="bold">
+
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/tvToDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="01-04-2022"
+                        android:textSize="12dp"
+                        android:textColor="@color/black" />
+                </LinearLayout>
+            </LinearLayout>
+                <LinearLayout
+                            android:id="@+id/llayout3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:background="@color/mainColor"
+                            android:orientation="horizontal"
+                            app:layout_constraintTop_toBottomOf="@id/edtscanbarcode">
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:background="@color/black">
+                            </View>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="40dp"
+                                android:layout_gravity="start"
+                                android:gravity="center"
+                                android:padding="2dp"
+                                android:layout_weight=".1"
+                                android:hint="0"
+                                android:textColorHint="@color/mainColor"
+                                android:background="@drawable/ic_baseline_circle_24"
+                                android:textColor="@color/white"
+                                android:textSize="13sp"
+                                android:textStyle="bold" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:background="@color/black">
+                            </View>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="40dp"
+                                android:layout_gravity="start"
+                                android:gravity="center"
+                                android:padding="2dp"
+                                android:layout_weight=".2"
+                                android:text="Job Number"
+                                android:textColor="@color/white"
+                                android:textSize="13sp"
+                                android:textStyle="bold" />
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:background="@color/black">
+                            </View>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:padding="10dp"
+                                android:layout_weight=".2"
+                                android:text="Created On"
+                                android:textStyle="bold"
+                                android:textColor="@color/white"
+                                android:textSize="13sp">
+
+                            </TextView>
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:background="@color/black">
+
+                            </View>
+                        </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvrecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginHorizontal="5dp"
+                android:layout_weight="1"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                />
+                <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_marginTop="50dp"
+                android:layout_height="match_parent">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnSaveData"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:background="@drawable/btn_bg"
+                    android:layout_marginLeft="50dp"
+                    android:layout_gravity="bottom"
+                    android:layout_marginRight="50dp"
+                    android:backgroundTint="#44AA48"
+                    android:text="Save"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    >
+
+                </androidx.appcompat.widget.AppCompatButton>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+
+
+    <LinearLayout
+        android:id="@+id/progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/white"
+        android:gravity="center"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolBar">
+        <ProgressBar
+            android:layout_width="60dp"
+            android:layout_height="60dp" />
+    </LinearLayout>
+
+<!--    <androidx.appcompat.widget.Toolbar-->
+<!--        android:id="@+id/toolBar"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:background="@color/mainColor"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent">-->
+<!--    <com.google.android.material.imageview.ShapeableImageView-->
+<!--        android:id="@+id/imgback"-->
+<!--        android:layout_width="25dp"-->
+<!--        android:layout_height="25dp"-->
+<!--        android:layout_margin="5sp"-->
+<!--        android:background="@drawable/ic_baseline_arrow_back_24"-->
+<!--        android:backgroundTint="@color/white">-->
+
+<!--    </com.google.android.material.imageview.ShapeableImageView>-->
+<!--        <TextView-->
+<!--            android:id="@+id/tvTitle"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Job Creation"-->
+<!--            android:textColor="@color/white"-->
+<!--            android:textSize="14sp"-->
+<!--            android:textStyle="bold"/>-->
+<!--    </androidx.appcompat.widget.Toolbar>-->
+
+
+
+<!--        <LinearLayout-->
+<!--            android:id="@+id/llayout3"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:layout_marginLeft="5dp"-->
+<!--            android:layout_marginRight="5dp"-->
+<!--            android:background="@color/mainColor"-->
+<!--            android:orientation="horizontal"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/edtscanbarcode">-->
+<!--            <View-->
+<!--                android:layout_width="1dp"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:background="@color/black">-->
+<!--            </View>-->
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="40dp"-->
+<!--                android:layout_gravity="start"-->
+<!--                android:gravity="center"-->
+<!--                android:padding="2dp"-->
+<!--                android:layout_weight=".1"-->
+<!--                android:hint="0"-->
+<!--                android:textColorHint="@color/mainColor"-->
+<!--                android:background="@drawable/ic_baseline_circle_24"-->
+<!--                android:textColor="@color/white"-->
+<!--                android:textSize="13sp"-->
+<!--                android:textStyle="bold" />-->
+
+<!--            <View-->
+<!--                android:layout_width="1dp"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:background="@color/black">-->
+<!--            </View>-->
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="40dp"-->
+<!--                android:layout_gravity="start"-->
+<!--                android:gravity="center"-->
+<!--                android:padding="2dp"-->
+<!--                android:layout_weight=".2"-->
+<!--                android:text="Job Number"-->
+<!--                android:textColor="@color/white"-->
+<!--                android:textSize="13sp"-->
+<!--                android:textStyle="bold" />-->
+<!--            <View-->
+<!--                android:layout_width="1dp"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:background="@color/black">-->
+<!--            </View>-->
+
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:gravity="center"-->
+<!--                android:padding="10dp"-->
+<!--                android:layout_weight=".2"-->
+<!--                android:text="Created On"-->
+<!--                android:textStyle="bold"-->
+<!--                android:textColor="@color/white"-->
+<!--                android:textSize="13sp">-->
+
+<!--            </TextView>-->
+<!--            <View-->
+<!--                android:layout_width="1dp"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:background="@color/black">-->
+
+<!--            </View>-->
+<!--        </LinearLayout>-->
+<!--        <androidx.recyclerview.widget.RecyclerView-->
+<!--            android:id="@+id/rv_Job"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="200dp"-->
+<!--            android:layout_marginHorizontal="5dp"-->
+<!--            android:layout_weight="1"-->
+<!--            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+<!--            />-->
+
+
+</LinearLayout>
