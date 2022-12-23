@@ -3,4 +3,9 @@
     <string name="stock_audit">Stock Audit</string>
     <string name="job_creation">Job Creation</string>
     <string name="stock_taking">Stock Taking</string>
+    <string name="selected_item">Selected item:</string>
+    <string-array name="Mode">
+        <item>Automatic</item>
+        <item>Manual</item>
+    </string-array>
 </resources>
