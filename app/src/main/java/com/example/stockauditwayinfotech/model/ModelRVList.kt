@@ -1,11 +1,7 @@
 package com.example.stockauditwayinfotech.model
-
-
-
 data class ModelRVList(
-    val Id: String,
-    val itemName:String,
-    val itemCode:String,
-    val qty:String,
+    val qty:Int,
+    val joblist :String,
     val barCode:String,
+    val datetime:String,
     )

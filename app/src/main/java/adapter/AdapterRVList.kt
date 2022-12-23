@@ -12,7 +12,7 @@ import com.example.stockauditwayinfotech.model.ModelRVList
 
 class AdapterRVList(
     val context: Context,
-    val list: ArrayList<ModelRVList>
+    val rvList: ArrayList<ModelRVList>
 ):
     RecyclerView.Adapter<AdapterRVList.MyViewHolder>()
 
@@ -23,23 +23,28 @@ class AdapterRVList(
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        //holder.serialNo.text= "${position+1}"
+        holder.serialNo.text= "${position+1}"
        // holder.itemName.text= list[position].itemName
-        holder.qty.text= list[position].qty
-        holder.barCode.text= list[position].barCode
+        holder.JobNum.text= rvList[position].joblist
+        holder.qty.text= rvList[position].qty.toString()
+        holder.barCode.text= rvList[position].barCode
+        holder.date.text= rvList[position].datetime
+
 
 
     }
     override fun getItemCount(): Int {
-        return list.size
+        return rvList.size
     }
 
 
     open class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
-        //val serialNo: TextView = itemView.findViewById(R.id.tvSrNoRv)
+        val serialNo: TextView = itemView.findViewById(R.id.tvCountStockve)
         //val itemName: TextView = itemView.findViewById(R.id.tvItemNameRv)
-        val qty: TextView = itemView.findViewById(R.id.edtQty)
-        val barCode: TextView = itemView.findViewById(R.id.txt_barcode)
+        val qty: TextView = itemView.findViewById(R.id.adp_qty)
+        val barCode: TextView = itemView.findViewById(R.id.adt_barcode)
+        val date: TextView = itemView.findViewById(R.id.adt_date)
+        val JobNum:TextView=itemView.findViewById(R.id.JobNum)
 
 
 

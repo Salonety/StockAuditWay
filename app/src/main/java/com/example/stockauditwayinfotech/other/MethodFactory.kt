@@ -20,7 +20,7 @@ import java.net.NetworkInterface
 import java.text.SimpleDateFormat
 import java.util.*
 
-public class MethodFactory {
+class MethodFactory {
 
     companion object {
 
@@ -87,7 +87,7 @@ public class MethodFactory {
         fun changeDateFormat(date: String): String {
             val inf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS")
             val out = SimpleDateFormat("dd/MM/yyyy hh:mm aa")
-            return out.format(inf.parse(date));
+            return out.format(inf.parse(date))
         }
 
         fun getIPAddress(useIPv4: Boolean): String {
@@ -106,10 +106,10 @@ public class MethodFactory {
                             } else {
                                 if (!isIPv4) {
                                     val delim = sAddr.indexOf('%') // drop ip6 zone suffix
-                                    return if (delim < 0) sAddr.toUpperCase() else sAddr.substring(
-                                        0,
-                                        delim
-                                    ).toUpperCase()
+                                    return if (delim < 0) sAddr.uppercase(Locale.getDefault()) else sAddr.substring(
+                                                                        0,
+                                                                        delim
+                                                                    ).uppercase(Locale.getDefault())
                                 }
                             }
                         }

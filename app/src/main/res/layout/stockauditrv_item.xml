@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
     <LinearLayout
         android:id="@+id/llayout3"
@@ -23,11 +23,9 @@
             android:paddingVertical="5dp"
             android:text="0"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             />
-
-
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
@@ -36,15 +34,34 @@
         </View>
 
         <TextView
-            android:id="@+id/tvSerialNumberStockve"
+            android:id="@+id/JobNum"
             android:layout_width="0dp"
             android:layout_height="40dp"
-            android:layout_weight="2"
             android:gravity="center"
+            android:layout_weight="2"
             android:layout_gravity="center"
             android:text="Job Number"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/black">
+
+        </View>
+        <TextView
+            android:id="@+id/adt_date"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:layout_weight="2"
+            android:layout_gravity="center"
+            android:text="Date"
+            android:textColor="@color/black"
+            android:textSize="14sp"
             android:textStyle="bold" />
 
 
@@ -55,8 +72,9 @@
 
         </View>
 
+
         <TextView
-            android:id="@+id/tvItemNameStockve"
+            android:id="@+id/adt_barcode"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:gravity="center"
@@ -64,7 +82,7 @@
             android:layout_gravity="center"
             android:text="Barcode Number"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:textStyle="bold" />
 
 
@@ -76,7 +94,7 @@
 
         </View>
         <TextView
-            android:id="@+id/audit_qty"
+            android:id="@+id/adp_qty"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:gravity="center"
@@ -84,7 +102,7 @@
             android:text="Qty"
             android:layout_gravity="center"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:textStyle="bold" />
 
         <View
@@ -94,23 +112,6 @@
 
         </View>
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:gravity="center"
-            android:layout_weight="2"
-            android:layout_gravity="center"
-            android:text="Date/Time"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="@color/black">
-
-        </View>
 
 
     </LinearLayout>
