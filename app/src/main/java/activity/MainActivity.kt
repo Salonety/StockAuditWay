@@ -1,7 +1,6 @@
 package activity
 
 import adapter.AdapterRVList
-import adapter.JobAdapterRVList
 import android.R
 import android.app.ProgressDialog
 import android.content.ContentValues
@@ -13,7 +12,6 @@ import android.view.KeyEvent
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import cn.pedant.SweetAlert.SweetAlertDialog
@@ -25,7 +23,6 @@ import com.crm_copy.connection.ConnectionClass
 import com.example.stockauditwayinfotech.databinding.ActivityMainBinding
 import com.example.stockauditwayinfotech.model.ModelRVList
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.stockauditrv_item.*
 import java.sql.Connection
 import java.sql.ResultSet
 import java.sql.Statement
@@ -242,9 +239,8 @@ class MainActivity : AppCompatActivity() {
             con = connectionClass.CONN()!!
             statement = con.createStatement()
             getJobNumber() }, 200)
-
-
-        binding.btnSaveData.setOnClickListener {
+        //for insertion
+            add_qty.setOnClickListener {
             insertItemDetails()
         }
 //mode spinner
