@@ -90,8 +90,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="Select Mode :"
-                android:textColor="@color/white"
-                android:background="@color/mainColor"
                 android:gravity="center"
                 android:paddingHorizontal="5dp"
                 android:textSize= "18sp" />
@@ -126,6 +124,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
         android:layout_marginTop="10dp"
+        android:background="@drawable/edit"
         android:orientation="horizontal">
 
 
@@ -148,6 +147,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
         android:layout_marginTop="10dp"
+        android:background="@drawable/edit"
         android:orientation="horizontal">
         <EditText
             android:id="@+id/edtQty"
@@ -184,7 +184,34 @@
             android:hint="Save"/>
 
 
+
+
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSaveData"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginLeft="50dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:layout_gravity="bottom"
+            android:layout_marginRight="50dp"
+            android:backgroundTint="#44AA48"
+            android:visibility="visible"
+            android:text="Save in database"
+            android:background="@drawable/btn_bg"
+            android:textAllCaps="false"
+            android:textColor="@color/white">
+
+        </androidx.appcompat.widget.AppCompatButton>
+    </LinearLayout>
+
     <LinearLayout
                     android:id="@+id/llayout3"
                     android:layout_width="match_parent"
@@ -319,27 +346,6 @@
         tools:listitem="@layout/stockauditrv_item"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_marginTop="50dp"
-        android:layout_height="match_parent">
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnSaveData"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_gravity="bottom"
-            android:layout_marginRight="50dp"
-            android:backgroundTint="#44AA48"
-            android:visibility="gone"
-            android:text="Save"
-            android:background="@drawable/btn_bg"
-            android:textAllCaps="false"
-            android:textColor="@color/white">
-
-        </androidx.appcompat.widget.AppCompatButton>
-    </LinearLayout>
 
 </LinearLayout>
 </ScrollView>

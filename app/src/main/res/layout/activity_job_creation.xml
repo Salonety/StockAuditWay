@@ -32,6 +32,21 @@
             android:textColor="@color/white"
             android:textSize="14sp"
             android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/tv_JReset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reset"
+            android:layout_gravity="end"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:backgroundTint="#FD4040"
+            android:background="@drawable/btn_bg"
+            android:layout_marginEnd="10dp"
+            android:padding="10dp"
+            android:textStyle="bold" />
+
 
         <TextView
             android:id="@+id/tvDate"
@@ -55,6 +70,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+<!--
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -70,6 +86,7 @@
                     android:layout_height="match_parent"
                     app:hintText="Created By" />
             </LinearLayout>
+-->
 
 
             <LinearLayout
@@ -190,7 +207,7 @@
                             </View>
                         </LinearLayout>
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvrecyclerView"
+                android:id="@+id/JobrecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_marginHorizontal="5dp"
