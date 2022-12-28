@@ -155,7 +155,8 @@
             android:layout_height="40dp"
             android:layout_weight="0.5"
             android:background="@drawable/spinner_bg"
-            android:hint="Qty=1"
+            android:hint="qty=1"
+            android:visibility="gone"
             android:editable="false"
             android:enabled="false"
             android:inputType="text"
@@ -168,6 +169,7 @@
             android:layout_weight="0.5"
             android:background="@drawable/spinner_bg"
             android:hint="Enter Your Qty"
+            android:text=""
             android:inputType="text"
             android:paddingHorizontal="5dp"
             android:textColor="@color/black" />
@@ -187,6 +189,62 @@
 
 
     </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:textSize="15sp"
+                android:gravity="center"
+                android:visibility="gone"
+                android:text="Total Job Qty :"
+                android:inputType="text"
+                android:paddingHorizontal="5dp"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/total_qty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginEnd="5dp"
+                android:textSize="15sp"
+                android:visibility="gone"
+                android:background="@drawable/spinner_bg"
+                android:text=""
+                android:inputType="text"
+                android:layout_weight="0.5"
+                android:paddingHorizontal="5dp"
+                android:textColor="@color/black" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:textSize="15sp"
+                android:visibility="gone"
+                android:text="Total add Qty :"
+                android:inputType="text"
+                android:paddingHorizontal="5dp"
+                android:textColor="@color/black" />
+            <TextView
+                android:id="@+id/added_qty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:gravity="center"
+                android:background="@drawable/spinner_bg"
+                android:text=""
+                android:visibility="gone"
+                android:layout_marginEnd="5dp"
+                android:inputType="text"
+                android:textSize="15sp"
+                android:paddingHorizontal="5dp"
+                android:textColor="@color/black" />
+        </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_marginTop="20dp"

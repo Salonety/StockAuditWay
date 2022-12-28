@@ -7,6 +7,7 @@ import android.content.ContentValues
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.KeyEvent
 import android.widget.Toast
@@ -44,8 +45,8 @@ class JobCreation : AppCompatActivity() {
         sessionManager = SessionManager(this)
         connectionClass = ConnectionClass(context)
         //for date and Time
-        dateorg = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.getDefault()).format(Date())
-        binding.tvDate.text = dateorg
+        dateorg = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+        job_date.text = dateorg
         //for back button
         imgback.setOnClickListener {
             onBackPressed()
@@ -65,6 +66,13 @@ class JobCreation : AppCompatActivity() {
         progressDialog!!.isIndeterminate = false
         progressDialog!!.setCancelable(true)
         progressDialog!!.show()
+        //handler
+        Handler(mainLooper).postDelayed({
+            con = connectionClass.CONN()!!
+            statement = con.createStatement()
+            progressDialog!!.dismiss()
+             }, 200)
+
 
 
         binding.edtJobNumber.setOnKeyListener { view, keyCode, keyEvent ->
@@ -78,13 +86,16 @@ class JobCreation : AppCompatActivity() {
             }
             false
         }
+        binding.btnSaveDataJob.setOnClickListener {
+            InsertJob()
+        }
 
     }//On create ends here
 
     private fun setRecyclerJob(jobNumber: String) {
         jobList.add(0, ModelJobListSp("", jobNumber,dateorg))
         binding.JobrecyclerView.adapter= JobAdapterRVList(this,jobList)
-        //binding.tvcoutn.text=rvList.size.toString()
+        Job_count.text=jobList.size.toString()
 
     }
 
@@ -97,7 +108,7 @@ class JobCreation : AppCompatActivity() {
                     "INSERT INTO JobCreation (JobNumber,CreatedOn) VALUES (?,?)"
                 val statement = con.prepareStatement(sql)
                 statement.setString(1, itemDetail.JobNumber)//JobNumber
-                statement.setString(4, itemDetail.datetime)//CreatedOn
+                statement.setString(2, itemDetail.datetime)//CreatedOn
 
                 n = statement.executeUpdate()
                 if (n > 0) {

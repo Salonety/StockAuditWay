@@ -56,7 +56,7 @@
         </View>
 
         <TextView
-            android:id="@+id/tvItemNameStockve"
+            android:id="@+id/jobCreateOn"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:gravity="center"

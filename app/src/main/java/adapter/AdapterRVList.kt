@@ -27,7 +27,7 @@ class AdapterRVList(
        // holder.itemName.text= list[position].itemName
         holder.JobNum.text= rvList[position].joblist
         holder.qty.text= rvList[position].qty.toString()
-        holder.barCode.text= rvList[position].barCode
+        holder.barCode.text= rvList[position].Scanby
         holder.date.text= rvList[position].datetime
 
 

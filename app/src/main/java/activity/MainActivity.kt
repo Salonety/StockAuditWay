@@ -1,42 +1,36 @@
 package activity
 
 import adapter.AdapterRVList
-import adapter.JobAdapterRVList
 import android.R
 import android.app.ProgressDialog
 import android.content.ContentValues
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.os.Bundle
 import android.os.Handler
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.StockTaking.connection.SessionManager
-import com.StockTaking.model.DataModel
 import com.StockTaking.model.ModelJobListSp
 import com.StockTaking.other.MethodFactory.Companion.myToast
 import com.crm_copy.connection.ConnectionClass
 import com.example.stockauditwayinfotech.databinding.ActivityMainBinding
 import com.example.stockauditwayinfotech.model.ModelRVList
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.stockauditrv_item.*
 import java.sql.Connection
-import java.sql.ResultSet
 import java.sql.Statement
 import java.text.SimpleDateFormat
 import java.util.*
 
 
+
 class MainActivity : AppCompatActivity() {
-    private var itemCodeNew=""
     private val context: Context = this@MainActivity
     private lateinit var connectionClass: ConnectionClass
     private lateinit var binding: ActivityMainBinding
@@ -44,14 +38,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var con: Connection
     private lateinit var statement: Statement
     private val scanByList = ArrayList<String>()
-    private var itemsettt = ""
-    private var formattedDate = ""
-    private var itemNameNew = ""
     private lateinit var sessionManager: SessionManager
     var progressDialog: ProgressDialog? = null
-    private val BarcodeList = ArrayList<DataModel>()
     private val rvList = ArrayList<ModelRVList>()
-    private val JobNum=""
     private var barCode = ""
     private var scanBy = ""
     private var qty = ""
@@ -64,11 +53,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         //connection class
         sessionManager = SessionManager(this)
         connectionClass = ConnectionClass(context)
-
         //auto manual spinner
         binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(adapterView: AdapterView<*>?, view: View, i: Int, l: Long) {
@@ -89,6 +76,7 @@ class MainActivity : AppCompatActivity() {
                        binding.edtQty.visibility=View.GONE
                        binding.edtQtymanual.visibility=View.VISIBLE
                        binding.addQty.visibility=View.VISIBLE
+                       binding.edtscanbarcode.text.clear()
 
                    }
 
@@ -100,14 +88,19 @@ class MainActivity : AppCompatActivity() {
             override fun onNothingSelected(adapterView: AdapterView<*>?) {
             }
         }
-
-       //for date and Time
+        //for date and Time
         dateorg = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.getDefault()).format(Date())
         binding.tvDate.text = dateorg
 
       //for spinner
         sp_jobnum.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(adapterView: AdapterView<*>?, view: View, i: Int, l: Long) {
+/*
+                if(sp_jobnum.getSelectedItem() !=null ) {
+                    Toast.makeText(getApplicationContext()," please select Job number",Toast. LENGTH_SHORT);
+
+                }
+*/
                 if (jobList.size > 0) {
                     jobNumber = jobList[i].JobNumber
                     Log.e(ContentValues.TAG, "type: $jobNumber")
@@ -129,19 +122,9 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
             overridePendingTransition(0, 0)
         }
-/*
-     // edtscanbarcode
-        edtscanbarcode.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) {
-                edtscanbarcode.setBackgroundResource(R.drawable.spinner_background)
 
-            }
-            if (!hasFocus) {
-                edtscanbarcode.setBackgroundColor((R.drawable.spinner_dropdown_background))
-
-            }
-
-        }*/
+        //for qty
+            binding.edtQty.setText("1")
 
 
        //bar code
@@ -152,6 +135,7 @@ class MainActivity : AppCompatActivity() {
             if (keyCode == KeyEvent.KEYCODE_ENTER) {
                 barCode = binding.edtscanbarcode.text.toString()
                 checkISerialNumber()
+                //checkDupli()
                 return@setOnKeyListener true
             }
             false
@@ -159,20 +143,18 @@ class MainActivity : AppCompatActivity() {
 
 
         //add qty button
-      add_qty.setOnClickListener {
-          barCode = binding.edtscanbarcode.text.toString()
-
-          qty =binding.edtQtymanual.text.toString().trim()
-          rvList.add(0, ModelRVList(qty, jobNumber,barCode,dateorg))
-          binding.rvrecyclerView.adapter=AdapterRVList(this,rvList)
-          binding.tvcoutn.text=rvList.size.toString()
+          add_qty.setOnClickListener {
+          qty = binding.edtQtymanual.text.toString().trim()
+          rvList.add(0, ModelRVList(qty, jobNumber, barCode, dateorg))
+          binding.rvrecyclerView.adapter = AdapterRVList(this, rvList)
+          binding.tvcoutn.text = rvList.size.toString()
 
 
 
       }
 
   // edt qty focus
-        edtQty.setOnFocusChangeListener { _, hasFocus ->
+        edtQtymanual.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus)
             {
                 edtQty.setBackgroundResource(R.drawable.spinner_background)
@@ -203,9 +185,42 @@ class MainActivity : AppCompatActivity() {
             insertItemDetails()
         }
 //mode spinner
-    mode()
+         mode()
+        focus()
+
 
     }//on create ends here
+
+    private fun focus() {
+
+        //for focus
+        edtscanbarcode.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus)
+            {
+                edtscanbarcode.setBackgroundResource(android.R.drawable.spinner_background)
+            }
+            if (!hasFocus)
+            {
+                edtscanbarcode.setBackgroundColor(android.R.drawable.spinner_dropdown_background)
+            }
+
+        }
+        edtQty.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus)
+            {
+                edtQty.setBackgroundResource(android.R.drawable.spinner_background)
+            }
+            if (!hasFocus)
+            {
+                edtQty.setBackgroundColor(android.R.drawable.spinner_dropdown_background)
+            }
+
+        }
+    }
+
+
+
+
     //for switching automatic to manual
     private fun mode() {
         spinner!!.onItemSelectedListener
@@ -223,7 +238,7 @@ class MainActivity : AppCompatActivity() {
                     "INSERT INTO StockTaking (JobNumber,BarCode,Qty,CreatedOn) VALUES (?,?,?,?)"
                 val statement = con.prepareStatement(sql)
                 statement.setString(1, itemDetail.joblist)//JobNumber
-                statement.setString(2, itemDetail.barCode)//BarCode
+                statement.setString(2, itemDetail.Scanby)//BarCode
                 statement.setString(3, itemDetail.qty.toString())//Qty
                 statement.setString(4, itemDetail.datetime)//CreatedOn
 
@@ -248,27 +263,25 @@ class MainActivity : AppCompatActivity() {
     }
     //for getting job num in spinner
     private fun getJobNumber() {
+       val quary = "select * from JobCreation"
+    val resultSet = statement.executeQuery(quary)
+        if (!resultSet.next()) {
+           Log.e(TAG, "EmptyListData:")
 
-        try {
-            val qry =
-                "select * from JobCreation"
-            val statement = con.createStatement()
-            val rsgr: ResultSet = statement.executeQuery(qry)
-            while (rsgr.next()) {
-                val id = rsgr.getInt("Id")
-                jobNumber = rsgr.getString("JobNumber")
-                jobList.add(0, ModelJobListSp("",jobNumber,dateorg))
-            }
+         jobList.clear()
+     } else {
+           jobList.add(0, ModelJobListSp("","Select Job Number",""))
+          do {
+              if (resultSet.getString("JobNumber") != "")
+                jobList.add(ModelJobListSp(resultSet.getString("Id"),resultSet.getString("JobNumber"),resultSet.getString("CreatedOn")))
+              total_qty.text=jobList.size.toString()
+            } while (resultSet.next())
+           sp_jobnum.adapter = ArrayAdapter<ModelJobListSp>(context, R.layout.simple_list_item_1, jobList)
+             progressDialog!!.dismiss()
+       }
 
-            sp_jobnum.adapter = ArrayAdapter<ModelJobListSp>(context, R.layout.simple_list_item_1,jobList)
-            progressDialog!!.dismiss()
-            Log.e(ContentValues.TAG, "Dataaaaa$jobList: ")
         }
-        catch (e: Exception) {
-            Log.e(ContentValues.TAG, "error: " + e.message)
-            e.printStackTrace()
-        }
-    }
+
     //validation from Serialnumber
     private fun checkISerialNumber() {
         try {
@@ -279,11 +292,12 @@ class MainActivity : AppCompatActivity() {
             if (resultSet.next()) {
                 //validation part
                 val code = resultSet.getString("COL1")
-
                 if (code==barCode){
                     myToast(this,"valid Item Code")
+                    enterClick()
                     setRecyclerSam(barCode)
-                    binding.edtQty.requestFocus()
+                    //binding.edtQty.requestFocus()
+                    binding.edtQtymanual.requestFocus()
                     //binding.edtscanbarcode.requestFocus()
                 }
                 Log.e(ContentValues.TAG,"code$code")
@@ -292,6 +306,7 @@ class MainActivity : AppCompatActivity() {
                 myToast(this,"Invalid Item Code")
                 binding.edtscanbarcode.text.clear()
             }
+
         } catch (se: Exception)
         {
             Log.e("ERROR", se.message!!)
@@ -299,12 +314,43 @@ class MainActivity : AppCompatActivity() {
 
 
     }
+
+    private fun enterClick() {
+        binding.edtscanbarcode.requestFocus()
+        if (rvList.size > 0) {
+            var isTrue = false
+            val iterator = rvList.iterator()
+            while (iterator.hasNext()) {
+                var itemIterator = iterator.next()
+                if (itemIterator.Scanby== barCode) {
+                    iterator.remove()
+                    isTrue = true
+                    myToast(this, "Barcode Already Scan")
+                }
+            }
+            if (!isTrue){
+
+                setRecyclerSam(barCode)
+            }
+        }else{
+            setRecyclerSam(barCode)
+
+        }
+        binding.edtscanbarcode.text?.clear()
+    }
+
     //setting data in recylerview
     private fun setRecyclerSam(barCode: String) {
+        if (sp_jobnum.getSelectedItem() != null) {
+            sp_jobnum.getSelectedItem()
+        } else {
+            myToast(this,"Please enter Job Number")
+        }
+        rvList.add(0, ModelRVList("1", jobNumber, barCode, dateorg))
+        binding.rvrecyclerView.adapter = AdapterRVList(this, rvList)
+        binding.tvcoutn.text = rvList.size.toString()
 
-        rvList.add(0, ModelRVList("1", jobNumber,barCode,dateorg))
-        binding.rvrecyclerView.adapter=AdapterRVList(this,rvList)
-        binding.tvcoutn.text=rvList.size.toString()
+
 
     }
 }   //end of class
