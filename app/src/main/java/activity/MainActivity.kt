@@ -317,11 +317,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun enterClick() {
         binding.edtscanbarcode.requestFocus()
+
+
         if (rvList.size > 0) {
             var isTrue = false
             val iterator = rvList.iterator()
             while (iterator.hasNext()) {
                 var itemIterator = iterator.next()
+
                 if (itemIterator.Scanby== barCode) {
                     iterator.remove()
                     isTrue = true
@@ -346,7 +349,7 @@ class MainActivity : AppCompatActivity() {
         } else {
             myToast(this,"Please enter Job Number")
         }
-        rvList.add(0, ModelRVList("1", jobNumber, barCode, dateorg))
+        rvList.add(0, ModelRVList(qty, jobNumber, barCode, dateorg))
         binding.rvrecyclerView.adapter = AdapterRVList(this, rvList)
         binding.tvcoutn.text = rvList.size.toString()
 

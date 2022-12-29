@@ -126,8 +126,6 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/edit"
                 android:orientation="horizontal">
-
-
                 <EditText
                     android:id="@+id/edtscanbarcode"
                     android:layout_width="match_parent"
@@ -137,9 +135,26 @@
                     android:inputType="text"
                     android:paddingHorizontal="5dp"
                     android:textColor="@color/black" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edit"
+                android:orientation="horizontal">
 
 
-
+                <EditText
+                    android:id="@+id/edtscanbarcodeman"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/spinner_bg"
+                    android:hint="Scan Barcode No."
+                    android:inputType="text"
+                    android:paddingHorizontal="5dp"
+                    android:textColor="@color/black" />
 
             </LinearLayout>
             <LinearLayout
@@ -162,7 +177,7 @@
                     android:paddingHorizontal="5dp"
                     android:textColor="@color/black" />
                 <EditText
-                    android:id="@+id/edtQtymanual2"
+                    android:id="@+id/edtQtymanual"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_weight="0.5"
@@ -180,7 +195,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
                     android:textColorHint="@color/white"
-                    android:hint="Save"/>
+                    android:hint="Add"/>
 
 
 
@@ -259,7 +274,7 @@
                     android:layout_marginRight="50dp"
                     android:backgroundTint="#44AA48"
                     android:visibility="visible"
-                    android:text="Save in database"
+                    android:text="Save"
                     android:background="@drawable/btn_bg"
                     android:textAllCaps="false"
                     android:textColor="@color/white">
