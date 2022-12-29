@@ -4,7 +4,6 @@ import adapter.AdapterRVList
 import android.app.ProgressDialog
 import android.content.ContentValues
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -13,13 +12,13 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.StockTaking.connection.SessionManager
 import com.StockTaking.model.ModelJobListSp
 import com.StockTaking.other.MethodFactory.Companion.myToast
 import com.crm_copy.connection.ConnectionClass
 import com.example.stockauditwayinfotech.R
-import com.example.stockauditwayinfotech.databinding.ActivityMainBinding
 import com.example.stockauditwayinfotech.databinding.ActivityTestBinding
 import com.example.stockauditwayinfotech.model.ModelRVList
 import kotlinx.android.synthetic.main.activity_main.add_qty
@@ -27,7 +26,6 @@ import kotlinx.android.synthetic.main.activity_main.edtscanbarcode
 import kotlinx.android.synthetic.main.activity_main.imgback
 import kotlinx.android.synthetic.main.activity_main.sp_jobnum
 import kotlinx.android.synthetic.main.activity_main.spinner
-import kotlinx.android.synthetic.main.activity_main.total_qty
 import kotlinx.android.synthetic.main.activity_main.tvReset
 import kotlinx.android.synthetic.main.activity_test.*
 import java.sql.Connection
@@ -52,6 +50,7 @@ class test_activity : AppCompatActivity() {
     private var dateorg = ""
     private val jobList = ArrayList<ModelJobListSp>()
     private var jobNumber=""
+    private var jobtotalqty=""
     var list_of_items = arrayOf("Automatic", "Manual")
 
 
@@ -110,10 +109,10 @@ class test_activity : AppCompatActivity() {
             con = connectionClass.CONN()!!
             statement = con.createStatement()
             getJobNumber() }, 200)
-     //to insert data in table
-        binding.btnSaveData.setOnClickListener {
-            insertItemDetails()
-        }
+//     //to insert data in table
+//        binding.btnSaveData.setOnClickListener {
+//            insertItemDetails()
+//        }
 
 
 
@@ -138,6 +137,8 @@ class test_activity : AppCompatActivity() {
         add_qty.setOnClickListener {
             barCode = binding.edtscanbarcodeman.text.toString()
             checkISerialNumberty(barCode)
+            insertItemDetails()
+
         }
 
 
@@ -161,13 +162,38 @@ class test_activity : AppCompatActivity() {
             false
         }
 
-
+      //functions
         checkISerialNumberty(barCode)
         fetchjobdatasp()
         focus()
         mode()
+        //totalQtyty()
 
-    }
+    }//onCreate ends here
+
+//    private fun totalQtyty() {
+//        val qry= "select sum(cast(col2 as int)) as Qty from StockAudit where JobNumber=('${jobNumber}')"
+//        val resultSet= statement.executeQuery(qry)
+//        val code = resultSet.getString("JobNumber")
+//
+//
+//
+//
+//    }
+
+
+    /*private fun totalQtyty() {
+          val str= "select sum(cast(col2 as int)) as Qty from StockAudit where JobNumber=('${jobNumber}')"
+          val resultSet= statement.executeQuery(str)
+            val code = resultSet.getString("JobNumber")
+        val myStr = sp_jobnum.selectedItem.toString()
+        if (myStr==code){
+            binding.TotalQty.setText(myStr)
+
+        }
+    }*/
+
+
     //for manual check
     private fun checkISerialNumberty(barCode: String) {
         try {
@@ -337,14 +363,17 @@ class test_activity : AppCompatActivity() {
                                 isTrue = true
                                 //iterator.remove()
                                 myToast(this, "Barcode Already Scan")
+
                             }
                         }
                     if (!isTrue) {
                         setRecyclerData(barCode)
+                        insertItemDetails()
                     }
                     }
                     else{
                         setRecyclerData(barCode)
+                    insertItemDetails()
                     }
                 binding.edtscanbarcode.text?.clear()
                 Log.e(ContentValues.TAG,"code$code")
@@ -384,7 +413,7 @@ class test_activity : AppCompatActivity() {
             do {
                 if (resultSet.getString("JobNumber") != "")
                     jobList.add(ModelJobListSp(resultSet.getString("Id"),resultSet.getString("JobNumber"),resultSet.getString("CreatedOn")))
-                total_qty.text=jobList.size.toString()
+                //.text=jobList.size.toString()
             } while (resultSet.next())
             sp_jobnum.adapter = ArrayAdapter<ModelJobListSp>(context, android.R.layout.simple_list_item_1, jobList)
             progressDialog!!.dismiss()
@@ -396,17 +425,21 @@ class test_activity : AppCompatActivity() {
         //for spinner
         sp_jobnum.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(adapterView: AdapterView<*>?, view: View, i: Int, l: Long) {
+                val myStr = sp_jobnum.selectedItem.toString()
+                   binding.TotalQty.setText(myStr)
+
                 if (jobList.size > 0) {
                     jobNumber = jobList[i].JobNumber
                     Log.e(ContentValues.TAG, "type: $jobNumber")
 
                     binding.edtscanbarcode.requestFocus()
+                    binding.edtscanbarcodeman.requestFocus()
                 }
             }
             override fun onNothingSelected(adapterView: AdapterView<*>?) {
 
                 if(sp_jobnum.getSelectedItem() !=null ) {
-                    Toast.makeText(getApplicationContext()," please select Job number",Toast. LENGTH_SHORT);
+                    Toast.makeText(getApplicationContext(),"please select Job number",Toast. LENGTH_SHORT);
 
                 }
 
