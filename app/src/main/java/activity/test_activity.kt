@@ -1,6 +1,7 @@
 package activity
 
 import adapter.AdapterRVList
+import android.annotation.SuppressLint
 import android.app.ProgressDialog
 import android.content.ContentValues
 import android.content.Context
@@ -13,7 +14,6 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import cn.pedant.SweetAlert.SweetAlertDialog
 import com.StockTaking.connection.SessionManager
 import com.StockTaking.model.ModelJobListSp
 import com.StockTaking.other.MethodFactory.Companion.myToast
@@ -113,9 +113,6 @@ class test_activity : AppCompatActivity() {
 //        binding.btnSaveData.setOnClickListener {
 //            insertItemDetails()
 //        }
-
-
-
         //for date and Time
         dateorg = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.getDefault()).format(Date())
         binding.tvDate.text = dateorg
@@ -170,6 +167,8 @@ class test_activity : AppCompatActivity() {
         //totalQtyty()
 
     }//onCreate ends here
+
+
 
 //    private fun totalQtyty() {
 //        val qry= "select sum(cast(col2 as int)) as Qty from StockAudit where JobNumber=('${jobNumber}')"
@@ -291,15 +290,7 @@ class test_activity : AppCompatActivity() {
 
                 n = statement.executeUpdate()
                 if (n > 0) {
-                    SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE)
-                        .setTitleText("Save successfully !")
-                        .setConfirmText("Ok")
-                        .setConfirmClickListener { obj: SweetAlertDialog ->
-                            obj.dismiss()
-                            finish()
-                        }
-                        .show()
-                    Toast.makeText(this, "successfully Inserted", Toast.LENGTH_SHORT).show()
+                    myToast(this, "successfully Inserted")
                 } else Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
             } catch (e: java.lang.Exception) {
                 Log.e(ContentValues.TAG, "error: " + e.message)
@@ -346,40 +337,106 @@ class test_activity : AppCompatActivity() {
 
     }
     //for auto check
+//    private fun checkISerialNumber(barCode: String) {
+//        try {
+//            val query =
+//                " select COL1 from stockaudit where  COL1=('${barCode}')"
+//            val resultSet = statement.executeQuery(query)
+//            if (resultSet.next()) {
+//                //validation part
+//                val code = resultSet.getString("COL1")
+//                if (rvList.size > 0) {
+//                        var isTrue = false
+//                        val iterator = rvList.iterator()
+//                        while (iterator.hasNext()) {
+//                            var itemIterator = iterator.next()
+//                            if (itemIterator.Scanby == code) {
+//                                isTrue = true
+//                                //iterator.remove()
+//                                myToast(this, "Barcode Already Scan")
+//
+//                            }
+//                        }
+//                    if (!isTrue) {
+//                        setRecyclerData(barCode)
+//                        insertItemDetails()
+//                    }
+//                    }
+//                   else{
+//                        setRecyclerData(barCode)
+//                    insertItemDetails()
+//                    }
+//                binding.edtscanbarcode.text?.clear()
+//                Log.e(ContentValues.TAG,"code$code")
+//            }
+//            else {
+//                myToast(this, "Invalid Item Code")
+//                binding.edtscanbarcode.text.clear()
+//            }
+//
+//        } catch (se: Exception)
+//        {
+//            Log.e("ERROR", se.message!!)
+//        }
+//    }
     private fun checkISerialNumber(barCode: String) {
         try {
             val query =
                 " select COL1 from stockaudit where  COL1=('${barCode}')"
             val resultSet = statement.executeQuery(query)
-            if (resultSet.next()) {
+            if (resultSet.next())
+            {
                 //validation part
                 val code = resultSet.getString("COL1")
-                if (rvList.size > 0) {
-                        var isTrue = false
-                        val iterator = rvList.iterator()
-                        while (iterator.hasNext()) {
-                            var itemIterator = iterator.next()
-                            if (itemIterator.Scanby == code) {
-                                isTrue = true
-                                //iterator.remove()
-                                myToast(this, "Barcode Already Scan")
 
-                            }
-                        }
-                    if (!isTrue) {
-                        setRecyclerData(barCode)
-                        insertItemDetails()
-                    }
-                    }
-                    else{
-                        setRecyclerData(barCode)
-                    insertItemDetails()
-                    }
-                binding.edtscanbarcode.text?.clear()
-                Log.e(ContentValues.TAG,"code$code")
+                if (code==barCode){
+                    checkDataCode(code)
+                  //  myToast(this, "valid Item Code")
+
+                }
+                else
+                {
+                    myToast(this, "Invalid Item Code")
+                }
+            }
+            else
+            {
+                myToast(this, "Invalid Item Code")
+            }
+
+
+        } catch (se: Exception)
+        {
+            Log.e("ERROR", se.message!!)
+        }
+    }
+
+    private fun checkDataCode(code: String) {
+        try {
+            val query =
+                " select BarCode from [StockTaking] where BarCode=('${code}')"
+            val resultSet = statement.executeQuery(query)
+            if (resultSet.next()) {
+                //validation part
+                val BarCode = resultSet.getString("BarCode")
+
+                if (BarCode==code)
+                {
+
+                    myToast(this,"Barcode already exists")
+
+                }
+                else
+                {
+
+                    myToast(this, "yes Item Code")
+
+                }
             }
             else {
-                myToast(this, "Invalid Item Code")
+                setRecyclerData(barCode)
+
+                insertItemDetails()
                 binding.edtscanbarcode.text.clear()
             }
 
@@ -388,6 +445,7 @@ class test_activity : AppCompatActivity() {
             Log.e("ERROR", se.message!!)
         }
     }
+
     //for auto rv
     private fun setRecyclerData(barCode: String) {
         if (sp_jobnum.getSelectedItem() != null) {
@@ -418,20 +476,30 @@ class test_activity : AppCompatActivity() {
             sp_jobnum.adapter = ArrayAdapter<ModelJobListSp>(context, android.R.layout.simple_list_item_1, jobList)
             progressDialog!!.dismiss()
         }
-
     }
     //job spinner
     private fun fetchjobdatasp() {
         //for spinner
         sp_jobnum.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            @SuppressLint("SuspiciousIndentation")
             override fun onItemSelected(adapterView: AdapterView<*>?, view: View, i: Int, l: Long) {
-                val myStr = sp_jobnum.selectedItem.toString()
-                   binding.TotalQty.setText(myStr)
+
+//               val total="select sum(cast(COL2 as int)) as Qty from StockAudit where JobNumber=('${jobNumber}')"
+//                val result= statement.executeQuery(total)
+//               val code = result.getString("Qty")
+//                val s1 : String = java.lang.String.valueOf(code.get(i))
+//                binding.TotalQty.setText(s1)
+
+                    //sp_jobnum.selectedItem.toString()
+                //val s1: String = java.lang.String.valueOf(val1.get(position))
+               // textView1.setText(s1)
+
 
                 if (jobList.size > 0) {
                     jobNumber = jobList[i].JobNumber
                     Log.e(ContentValues.TAG, "type: $jobNumber")
-
+                    binding.edtscanbarcodeman.isEnabled=true
+                    binding.edtscanbarcode.isEnabled=true
                     binding.edtscanbarcode.requestFocus()
                     binding.edtscanbarcodeman.requestFocus()
                 }

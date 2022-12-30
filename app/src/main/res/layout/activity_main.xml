@@ -261,7 +261,7 @@
             android:layout_gravity="bottom"
             android:layout_marginRight="50dp"
             android:backgroundTint="#44AA48"
-            android:visibility="visible"
+            android:visibility="gone"
             android:text="Save"
             android:background="@drawable/btn_bg"
             android:textAllCaps="false"
