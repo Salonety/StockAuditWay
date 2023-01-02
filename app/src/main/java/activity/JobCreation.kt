@@ -14,6 +14,7 @@ import android.widget.Toast
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.StockTaking.connection.SessionManager
 import com.StockTaking.model.ModelJobListSp
+import com.StockTaking.other.MethodFactory
 import com.crm_copy.connection.ConnectionClass
 import com.example.stockauditwayinfotech.databinding.ActivityJobCreationBinding
 import com.example.stockauditwayinfotech.model.ModelRVList
@@ -81,16 +82,56 @@ class JobCreation : AppCompatActivity() {
             }
             if (keyCode == KeyEvent.KEYCODE_ENTER) {
                 JobNumber = binding.edtJobNumber.text.toString()
-                setRecyclerJob(JobNumber)
+                checkIJobNumber(JobNumber)
+                //setRecyclerJob(JobNumber)
                 return@setOnKeyListener true
             }
             false
         }
-        binding.btnSaveDataJob.setOnClickListener {
-            InsertJob()
-        }
+//        binding.btnSaveDataJob.setOnClickListener {
+//            InsertJob()
+//        }
 
     }//On create ends here
+
+    private fun checkIJobNumber(jobNumber: String) {
+
+        try {
+            val query =
+                "select jobnumber from JobCreation where JobNumber=('${jobNumber}')"
+            val resultSet = statement.executeQuery(query)
+            if (resultSet.next()) {
+                //validation part
+                val jobNumber = resultSet.getString("JobNumber")
+
+                if (jobNumber==JobNumber)
+                {
+                    MethodFactory.myToast(this, "Job Number already exists")
+
+                }
+                else
+                {
+
+                    MethodFactory.myToast(this, "yes Item Code")
+
+                }
+            }
+            else {
+                setRecyclerJob(JobNumber)
+
+                InsertJob()
+                binding.edtJobNumber.text.clear()
+
+
+            }
+
+        } catch (se: Exception)
+        {
+            Log.e("ERROR", se.message!!)
+        }
+
+
+    }
 
     private fun setRecyclerJob(jobNumber: String) {
         jobList.add(0, ModelJobListSp("", jobNumber,dateorg))
@@ -112,14 +153,6 @@ class JobCreation : AppCompatActivity() {
 
                 n = statement.executeUpdate()
                 if (n > 0) {
-                    SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE)
-                        .setTitleText("Save successfully !")
-                        .setConfirmText("Ok")
-                        .setConfirmClickListener { obj: SweetAlertDialog ->
-                            obj.dismiss()
-                            finish()
-                        }
-                        .show()
                     Toast.makeText(this, "successfully Inserted", Toast.LENGTH_SHORT).show()
                 } else Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
             } catch (e: java.lang.Exception) {

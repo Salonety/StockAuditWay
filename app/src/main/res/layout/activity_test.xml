@@ -206,6 +206,17 @@
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:gravity="center"
+                    android:textSize="15sp"
+                    android:background="@drawable/edit"
+                    android:text="Total Qty :"
+                    android:layout_marginEnd="10dp"
+                    android:inputType="text"
+                    android:paddingHorizontal="5dp"
+                    android:textColor="@color/black" />
+                <TextView
                     android:id="@+id/TotalQty"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
@@ -218,17 +229,30 @@
                     android:enabled="false"
                     android:paddingHorizontal="5dp"
                     android:textColor="@color/black" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:gravity="center"
-                        android:textSize="15sp"
-                        android:layout_marginStart="10dp"
-                        android:background="@drawable/edit"
-                        android:hint="Total Scanned Qty :"
-                        android:inputType="text"
-                        android:paddingHorizontal="5dp"
-                        android:textColor="@color/black" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:gravity="center"
+                    android:textSize="15sp"
+                    android:background="@drawable/edit"
+                    android:text="Total Scanned Qty :"
+                    android:layout_marginEnd="10dp"
+                    android:inputType="text"
+                    android:paddingHorizontal="5dp"
+                    android:textColor="@color/black" />
+                <EditText
+                    android:id="@+id/totalscannedQty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:textSize="15sp"
+                    android:gravity="center"
+                    android:background="@drawable/edit"
+                    android:hint="Total Qty :"
+                    android:inputType="text"
+                    android:layout_marginEnd="10dp"
+                    android:paddingHorizontal="5dp"
+                    android:textColor="@color/black" />
+
                 </LinearLayout>
 
 
@@ -387,10 +411,22 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="5dp"
                 android:layout_weight="1"
+                android:visibility="gone"
                 tools:itemCount="2"
                 tools:listitem="@layout/stockauditrv_item"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_trecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
+                android:layout_weight="1"
+                tools:itemCount="2"
+                tools:listitem="@layout/stockauditrv_item"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                />
+
 
         </LinearLayout>
     </ScrollView>

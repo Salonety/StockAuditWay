@@ -238,7 +238,7 @@ class MainActivity : AppCompatActivity() {
                     "INSERT INTO StockTaking (JobNumber,BarCode,Qty,CreatedOn) VALUES (?,?,?,?)"
                 val statement = con.prepareStatement(sql)
                 statement.setString(1, itemDetail.joblist)//JobNumber
-                statement.setString(2, itemDetail.Scanby)//BarCode
+                statement.setString(2, itemDetail.barCode)//BarCode
                 statement.setString(3, itemDetail.qty.toString())//Qty
                 statement.setString(4, itemDetail.datetime)//CreatedOn
 
@@ -325,7 +325,7 @@ class MainActivity : AppCompatActivity() {
             while (iterator.hasNext()) {
                 var itemIterator = iterator.next()
 
-                if (itemIterator.Scanby== barCode) {
+                if (itemIterator.barCode== barCode) {
                     iterator.remove()
                     isTrue = true
                     myToast(this, "Barcode Already Scan")
