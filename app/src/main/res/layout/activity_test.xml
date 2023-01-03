@@ -246,6 +246,7 @@
                     android:layout_height="40dp"
                     android:textSize="15sp"
                     android:gravity="center"
+                    android:editable="false"
                     android:background="@drawable/edit"
                     android:hint="Total Qty :"
                     android:inputType="text"

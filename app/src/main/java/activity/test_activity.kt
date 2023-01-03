@@ -51,6 +51,8 @@ class test_activity : AppCompatActivity() {
     private var scanBy = ""
     private var qty = ""
     private var dateorg = ""
+    private var gg = ""
+    private var  addd = 0
     private val jobList = ArrayList<ModelJobListSp>()
     private var jobNumber=""
     var list_of_items = arrayOf("Automatic", "Manual")
@@ -145,7 +147,7 @@ class test_activity : AppCompatActivity() {
             }
             if (keyCode == KeyEvent.KEYCODE_ENTER) {
                 barCode = binding.edtscanbarcode.text.toString()
-                checkISerialNumber(barCode)
+                checkISerialNumber(barCode,jobNumber)
                 return@setOnKeyListener true
             }
             false
@@ -164,6 +166,8 @@ class test_activity : AppCompatActivity() {
         fetchjobdatasp()
         focus()
         mode()
+        //checkjobnum(jobNumber,barCode)
+
 
     }//onCreate ends here
 
@@ -180,7 +184,7 @@ class test_activity : AppCompatActivity() {
                 //validation part
                 val code = resultSet.getString("COL1")
                 if (code == barCode) {
-                    myToast(this, "valid Item Code")
+                    //myToast(this, "valid Item Code")
                     checkDataCodeMan(code)
                     binding.edtQtymanual.requestFocus()
                     binding.edtscanbarcodeman.text.clear()
@@ -201,17 +205,19 @@ class test_activity : AppCompatActivity() {
     private fun checkDataCodeMan(code: String) {
         try {
             val query =
-                " select BarCode from [StockTaking] where BarCode=('${code}')"
+                //" select BarCode from [StockTaking] where BarCode=('${code}')"
+            "select BarCode from [StockTaking] where BarCode =('${code}') and JobNumber =('${jobNumber}')"
             val resultSet = statement.executeQuery(query)
             if (resultSet.next()) {
                 //validation part
                 val BarCode = resultSet.getString("BarCode")
+                val jobs = resultSet.getString("JobNumber")
+                if (jobs==BarCode) {
+                    if (BarCode == code) {
 
-                if (BarCode==code)
-                {
+                        myToast(this, "Barcode already exists")
 
-                    myToast(this,"Barcode already exists")
-
+                    }
                 }
                 else
                 {
@@ -327,7 +333,7 @@ class test_activity : AppCompatActivity() {
 
     }
     //for auto check
-    private fun checkISerialNumber(barCode: String) {
+    private fun checkISerialNumber(barCode: String,jobNumber:String) {
         try {
             val query = "select COL1 from StockAudit   where JobNumber=('${jobNumber}') and COL1=('${barCode}')"
             val resultSet = statement.executeQuery(query)
@@ -337,7 +343,7 @@ class test_activity : AppCompatActivity() {
                 val code = resultSet.getString("COL1")
 
                 if (code==barCode){
-                    myToast(this, "valid Item Code")
+                    //myToast(this, "valid Item Code")
                     checkDataCode(code)
                     binding.edtQty.requestFocus()
                     binding.edtscanbarcode.text.clear()
@@ -359,16 +365,18 @@ class test_activity : AppCompatActivity() {
     private fun checkDataCode(code: String) {
         try {
             val query =
-                " select BarCode from [StockTaking] where BarCode=('${code}')"
+                //" select BarCode from [StockTaking] where BarCode=('${code}')"
+            "select BarCode from [StockTaking] where BarCode =('${code}') and JobNumber =('${jobNumber}')"
             val resultSet = statement.executeQuery(query)
             if (resultSet.next()) {
                 //validation part
                 val BarCode = resultSet.getString("BarCode")
+                val jobs = resultSet.getString("JobNumber")
+                if (jobs==BarCode) {
+                    if (BarCode == code) {
+                        myToast(this, "Barcode already exists")
 
-                if (BarCode==code)
-                {
-                    myToast(this,"Barcode already exists")
-
+                    }
                 }
                 else
                 {
@@ -382,6 +390,7 @@ class test_activity : AppCompatActivity() {
                 getallsum()
                 insertItemDetails()
                 binding.edtscanbarcode.text.clear()
+                //binding.totalscannedQty.text.clear()
             }
 
         } catch (se: Exception)
@@ -427,12 +436,7 @@ class test_activity : AppCompatActivity() {
         sp_jobnum.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             @SuppressLint("SuspiciousIndentation")
             override fun onItemSelected(adapterView: AdapterView<*>?, view: View, i: Int, l: Long) {
-
-                binding.totalscannedQty.text.clear()
-                jobNumber = jobList[i].JobNumber
-                binding.totalscannedQty.text.clear()
-               val total="select sum(sa.COL2) as tot from JobCreation jc inner join StockAudit sa on  sa.JobNumber= jc.JobNumber where sa.JobNumber=('${jobNumber}')"
-               //val result= statement.executeQuery(total)
+                val total="select sum(sa.COL2) as tot from JobCreation jc inner join StockAudit sa on  sa.JobNumber= jc.JobNumber where sa.JobNumber=('${jobNumber}')"
                 val resultSet = statement.executeQuery(total)
                 if (resultSet.next())
                 {
@@ -450,21 +454,19 @@ class test_activity : AppCompatActivity() {
                     binding.edtscanbarcode.requestFocus()
 
                 }
-
+                rvtwoList.clear()
+                binding.totalscannedQty.text.clear()
             }
             override fun onNothingSelected(adapterView: AdapterView<*>?) {
-
-
             }
         }
     }
     //for total qty sum
     private fun getallsum() {
-        val addd = rvtwoList.sumBy { it.qty.toInt() }
-        var gg = addd.toString()
+         addd = rvtwoList.sumBy { it.qty.toInt() }
+         gg = addd.toString()
         totalscannedQty.setText(gg)
+            }
 
-
-    }
 
 } //program ends here
