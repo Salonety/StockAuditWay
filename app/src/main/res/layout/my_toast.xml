@@ -28,7 +28,7 @@
                 android:id="@+id/button_click_parent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/design_default_color_primary"
+                android:background="#F44336"
                 android:clickable="true"
                 android:focusable="true">
 
@@ -36,7 +36,7 @@
                     android:id="@+id/button_accent_border"
                     android:layout_width="10dp"
                     android:layout_height="match_parent"
-                    android:background="#3A0585" />
+                    />
 
                 <TextView
                     android:id="@+id/toast_text"
@@ -46,7 +46,8 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:gravity="center"
-                    android:text="This is a custom Toast"
+                    android:drawablePadding="5dp"
+                    android:text="@string/this_is_a_custom_toast"
                     android:textColor="@color/white"
                     android:textSize="18sp"
                     android:textStyle="bold" />

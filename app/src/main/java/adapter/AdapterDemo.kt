@@ -13,7 +13,7 @@ import com.example.stockauditwayinfotech.model.ModelRVList
 
 class AdapterDemo(
     val context: Context,
-    val rvList: ArrayList<Demo>
+    val rvtwoList: ArrayList<Demo>
 ):
     RecyclerView.Adapter<AdapterDemo.MyViewHolder>()
 
@@ -25,7 +25,7 @@ class AdapterDemo(
 
 
     override fun getItemCount(): Int {
-        return rvList.size
+        return rvtwoList.size
     }
 
 
@@ -44,10 +44,11 @@ class AdapterDemo(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.serialNo.text= "${position+1}"
         // holder.itemName.text= list[position].itemName
-        holder.JobNum.text= rvList[position].joblist
-        holder.qty.text= rvList[position].qty.toString()
-        holder.barCode.text= rvList[position].barCode
-        holder.date.text= rvList[position].datetime
+        holder.JobNum.text= rvtwoList[position].joblist
+        holder.qty.text= rvtwoList[position].qty.toString()
+        holder.barCode.text= rvtwoList[position].barCode
+        holder.date.text= rvtwoList[position].datetime
+
 
     }
 

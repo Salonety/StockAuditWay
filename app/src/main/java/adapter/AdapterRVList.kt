@@ -12,29 +12,31 @@ import com.example.stockauditwayinfotech.model.ModelRVList
 
 class AdapterRVList(
     val context: Context,
-    val rvtwoList: ArrayList<ModelRVList>
+    val rvList: ArrayList<ModelRVList>
 ):
     RecyclerView.Adapter<AdapterRVList.MyViewHolder>()
 
 {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        return MyViewHolder(LayoutInflater.from(context).inflate(R.layout.stockauditrv_item,parent,false))
+        return MyViewHolder(LayoutInflater.from(context).inflate(R.layout.stockauditrv_item_yn,parent,false))
 
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.serialNo.text= "${position+1}"
        // holder.itemName.text= list[position].itemName
-        holder.JobNum.text= rvtwoList[position].joblist
-        holder.qty.text= rvtwoList[position].qty.toString()
-        holder.barCode.text= rvtwoList[position].barCode
-        holder.date.text= rvtwoList[position].datetime
+        holder.JobNum.text= rvList[position].joblist
+        holder.qty.text= rvList[position].qty.toString()
+        holder.barCode.text= rvList[position].barCode
+        holder.date.text= rvList[position].datetime
+        holder.exi.text=rvList[position].yes
+
 
 
 
     }
     override fun getItemCount(): Int {
-        return rvtwoList.size
+        return rvList.size
     }
 
 
@@ -45,6 +47,7 @@ class AdapterRVList(
         val barCode: TextView = itemView.findViewById(R.id.adt_barcode)
         val date: TextView = itemView.findViewById(R.id.adt_date)
         val JobNum:TextView=itemView.findViewById(R.id.JobNum)
+        val exi:TextView=itemView.findViewById(R.id.yesno)
 
 
 

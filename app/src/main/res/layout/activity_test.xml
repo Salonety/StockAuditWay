@@ -10,10 +10,7 @@
         android:id="@+id/toolBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/mainColor"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:background="@color/mainColor">
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/imgback"
             android:layout_width="25dp"
@@ -23,7 +20,6 @@
             android:backgroundTint="@color/white">
 
         </com.google.android.material.imageview.ShapeableImageView>
-
         <TextView
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
@@ -32,17 +28,6 @@
             android:textColor="@color/white"
             android:textSize="14sp"
             android:textStyle="bold"/>
-
-
-        <TextView
-            android:id="@+id/tvDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginEnd="10dp"
-            android:text="DATE"
-            android:textColor="@color/white" />
-
 
         <TextView
             android:id="@+id/tvReset"
@@ -58,17 +43,14 @@
             android:layout_marginEnd="10dp"
             android:padding="10dp"
             android:textStyle="bold" />
-
         <TextView
-            android:id="@+id/tvTime"
+            android:id="@+id/tvDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginEnd="10dp"
-            android:text="TIME"
-            android:visibility="gone"
+            android:text="DATE"
             android:textColor="@color/white" />
-
     </androidx.appcompat.widget.Toolbar>
     <ScrollView
         android:layout_width="match_parent"
@@ -90,6 +72,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="Select Mode :"
+                    android:textColor="@color/white"
+                    android:background="@color/mainColor"
                     android:gravity="center"
                     android:paddingHorizontal="5dp"
                     android:textSize= "18sp" />
@@ -203,19 +187,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
                 android:orientation="horizontal">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:gravity="center"
                     android:textSize="15sp"
-                    android:background="@drawable/edit"
+                    android:background="@color/mainColor"
                     android:text="Total Qty :"
-                    android:layout_marginEnd="10dp"
                     android:inputType="text"
                     android:paddingHorizontal="5dp"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/white" />
                 <TextView
                     android:id="@+id/TotalQty"
                     android:layout_width="wrap_content"
@@ -223,39 +207,43 @@
                     android:textSize="15sp"
                     android:gravity="center"
                     android:background="@drawable/edit"
-                    android:hint="Total Qty :"
+                    android:hint="Total"
                     android:inputType="text"
-                    android:layout_marginEnd="10dp"
                     android:enabled="false"
                     android:paddingHorizontal="5dp"
                     android:textColor="@color/black" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:orientation="horizontal">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:gravity="center"
                     android:textSize="15sp"
-                    android:background="@drawable/edit"
+                    android:background="@color/mainColor"
                     android:text="Total Scanned Qty :"
-                    android:layout_marginEnd="10dp"
                     android:inputType="text"
                     android:paddingHorizontal="5dp"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/white" />
                 <EditText
                     android:id="@+id/totalscannedQty"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:textSize="15sp"
                     android:gravity="center"
-                    android:editable="false"
+                    android:enabled="false"
                     android:background="@drawable/edit"
-                    android:hint="Total Qty :"
+                    android:hint="Total"
                     android:inputType="text"
-                    android:layout_marginEnd="10dp"
                     android:paddingHorizontal="5dp"
                     android:textColor="@color/black" />
 
-                </LinearLayout>
-
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -403,6 +391,7 @@
                     android:background="@color/black">
 
                 </View>
+
 
             </LinearLayout>
 

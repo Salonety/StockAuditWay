@@ -6,8 +6,11 @@ import android.annotation.SuppressLint
 import android.app.ProgressDialog
 import android.content.ContentValues
 import android.content.Context
+import android.media.AudioManager
+import android.media.ToneGenerator
 import android.os.Bundle
 import android.os.Handler
+import android.os.Vibrator
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
@@ -46,6 +49,8 @@ class test_activity : AppCompatActivity() {
     private lateinit var sessionManager: SessionManager
     var progressDialog: ProgressDialog? = null
     private val rvList = ArrayList<ModelRVList>()
+    private val exists=""
+    private val no=""
    private val rvtwoList= ArrayList<Demo>()
     private var barCode = ""
     private var scanBy = ""
@@ -166,7 +171,7 @@ class test_activity : AppCompatActivity() {
         fetchjobdatasp()
         focus()
         mode()
-        //checkjobnum(jobNumber,barCode)
+
 
 
     }//onCreate ends here
@@ -193,6 +198,8 @@ class test_activity : AppCompatActivity() {
                 Log.e(ContentValues.TAG, "code$code")
             }
                 else {
+                val toneGen1 = ToneGenerator(AudioManager.STREAM_MUSIC, 100)
+                toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150)
                     myToast(this, "Invalid Item Code")
                 binding.edtscanbarcodeman.text.clear()
 
@@ -208,21 +215,22 @@ class test_activity : AppCompatActivity() {
                 //" select BarCode from [StockTaking] where BarCode=('${code}')"
             "select BarCode from [StockTaking] where BarCode =('${code}') and JobNumber =('${jobNumber}')"
             val resultSet = statement.executeQuery(query)
+
             if (resultSet.next()) {
                 //validation part
                 val BarCode = resultSet.getString("BarCode")
-                val jobs = resultSet.getString("JobNumber")
-                if (jobs==BarCode) {
-                    if (BarCode == code) {
-
-                        myToast(this, "Barcode already exists")
-
+                if (BarCode == code) {
+                    val toneGen1 = ToneGenerator(AudioManager.STREAM_MUSIC, 100)
+                    toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150)
+                    myToast(this, "barcode already exists")
+                    if (resultSet.next()){
+                        val jobs = resultSet.getString("JobNumber")
+                        if (jobs==code) {
+                            val toneGen1 = ToneGenerator(AudioManager.STREAM_MUSIC, 100)
+                            toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150)
+                            myToast(this,"barcode does not exists on this job")
+                        }
                     }
-                }
-                else
-                {
-
-                    myToast(this, "Invalid")
 
                 }
             }
@@ -230,12 +238,13 @@ class test_activity : AppCompatActivity() {
                 if (sp_jobnum.getSelectedItem() != null) {
                     sp_jobnum.getSelectedItem()
                 } else {
+
                     myToast(this, "Please enter Job Number")
                 }
 
                 qty = binding.edtQtymanual.text.toString().trim()
                 if (qty == "") {
-                    rvList.add(0, ModelRVList("1", jobNumber, barCode, dateorg))
+                    rvList.add(0, ModelRVList("1", jobNumber, barCode, dateorg,exists))
                     rv_trecyclerView.adapter = AdapterRVList(this, rvList)
                     binding.tvcoutn.text = rvList.size.toString()
 
@@ -247,7 +256,7 @@ class test_activity : AppCompatActivity() {
 
                 }
                 else{
-                    rvList.add(0, ModelRVList(qty, jobNumber, barCode, dateorg))
+                    rvList.add(0, ModelRVList(qty, jobNumber, barCode, dateorg,exists))
                     binding.rvrecyclerView.adapter = AdapterRVList(this, rvList)
                     binding.tvcoutn.text = rvList.size.toString()
 
@@ -276,18 +285,22 @@ class test_activity : AppCompatActivity() {
             try {
                 var n = 0
                 val sql =
-                    "INSERT INTO StockTaking (JobNumber,BarCode,Qty,CreatedOn) VALUES (?,?,?,?)"
+                   // "INSERT INTO StockTaking (JobNumber,BarCode,Qty,CreatedOn) VALUES (?,?,?,?)"
+                    "INSERT INTO StockTaking (JobNumber,BarCode,Qty,CreatedOn,ExistBarcode) VALUES (?,?,?,?,?)"
                 val statement = con.prepareStatement(sql)
                 statement.setString(1, itemDetail.joblist)//JobNumber
                 statement.setString(2, itemDetail.barCode)//BarCode
                 statement.setString(3, itemDetail.qty.toString())//Qty
                 statement.setString(4, itemDetail.datetime)//CreatedOn
+                statement.setString(5, itemDetail.yes)//for yes and no
 
                 n = statement.executeUpdate()
                 if (n > 0) {
                     rvList.clear()
-                    myToast(this, "successfully Inserted")
-                } else Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+                    //myToast(this, "successfully Inserted")
+                }
+
+                else Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
             } catch (e: java.lang.Exception) {
                 Log.e(ContentValues.TAG, "error: " + e.message)
                 e.printStackTrace()
@@ -335,7 +348,7 @@ class test_activity : AppCompatActivity() {
     //for auto check
     private fun checkISerialNumber(barCode: String,jobNumber:String) {
         try {
-            val query = "select COL1 from StockAudit   where JobNumber=('${jobNumber}') and COL1=('${barCode}')"
+            val query = "select COL1 from StockAudit where JobNumber=('${jobNumber}') and COL1=('${barCode}')"
             val resultSet = statement.executeQuery(query)
             if (resultSet.next())
             {
@@ -344,7 +357,7 @@ class test_activity : AppCompatActivity() {
 
                 if (code==barCode){
                     //myToast(this, "valid Item Code")
-                    checkDataCode(code)
+                    checkDataCode(code,jobNumber)
                     binding.edtQty.requestFocus()
                     binding.edtscanbarcode.text.clear()
                 }
@@ -352,7 +365,12 @@ class test_activity : AppCompatActivity() {
                 Log.e(ContentValues.TAG, "code$code")
             }
             else {
+                val toneGen1 = ToneGenerator(AudioManager.STREAM_MUSIC, 100)
+                toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150)
                 myToast(this, "Invalid Item Code")
+                setRecyclery(barCode)
+                getallsum()
+                insertItemDetails()
                 binding.edtscanbarcode.text.clear()
 
             }
@@ -362,26 +380,27 @@ class test_activity : AppCompatActivity() {
 
     }
     //for dupli in auto
-    private fun checkDataCode(code: String) {
+    private fun checkDataCode(code: String,jobNumber:String) {
         try {
-            val query =
-                //" select BarCode from [StockTaking] where BarCode=('${code}')"
-            "select BarCode from [StockTaking] where BarCode =('${code}') and JobNumber =('${jobNumber}')"
+            val query = //" select BarCode from [StockTaking] where BarCode=('${code}')"
+           "select BarCode from [StockTaking] where BarCode =('${code}') and JobNumber =('${jobNumber}')"
             val resultSet = statement.executeQuery(query)
+
             if (resultSet.next()) {
                 //validation part
                 val BarCode = resultSet.getString("BarCode")
-                val jobs = resultSet.getString("JobNumber")
-                if (jobs==BarCode) {
-                    if (BarCode == code) {
-                        myToast(this, "Barcode already exists")
-
+                if (BarCode == code) {
+                    val toneGen1 = ToneGenerator(AudioManager.STREAM_MUSIC, 100)
+                    toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150)
+                    myToast(this, "barcode already exists")
+                    if (resultSet.next()){
+                        val jobs = resultSet.getString("JobNumber")
+                        if (jobs==code) {
+                            val toneGen1 = ToneGenerator(AudioManager.STREAM_MUSIC, 100)
+                            toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150)
+                            myToast(this,"barcode does not exists on this job")
+                        }
                     }
-                }
-                else
-                {
-
-                    myToast(this, "yes Item Code")
 
                 }
             }
@@ -405,7 +424,21 @@ class test_activity : AppCompatActivity() {
         } else {
             myToast(this, "Please enter Job Number")
         }
-        rvList.add(0, ModelRVList("1", jobNumber, barCode, dateorg))
+        rvList.add(0, ModelRVList("1", jobNumber, barCode, dateorg,"Y"))
+        binding.rvrecyclerView.adapter = AdapterRVList(this, rvList)
+        binding.tvcoutn.text = rvList.size.toString()
+        rvtwoList.add(0, Demo("1",jobNumber,barCode,dateorg))
+        binding.rvTrecyclerView.adapter=AdapterDemo(this,rvtwoList)
+        binding.tvcoutn.text=rvtwoList.size.toString()
+
+    }
+    private fun setRecyclery(barCode: String) {
+        if (sp_jobnum.getSelectedItem() != null) {
+            sp_jobnum.getSelectedItem()
+        } else {
+            myToast(this, "Please enter Job Number")
+        }
+        rvList.add(0, ModelRVList("1", jobNumber, barCode, dateorg,"N"))
         binding.rvrecyclerView.adapter = AdapterRVList(this, rvList)
         binding.tvcoutn.text = rvList.size.toString()
         rvtwoList.add(0, Demo("1",jobNumber,barCode,dateorg))
@@ -436,6 +469,7 @@ class test_activity : AppCompatActivity() {
         sp_jobnum.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             @SuppressLint("SuspiciousIndentation")
             override fun onItemSelected(adapterView: AdapterView<*>?, view: View, i: Int, l: Long) {
+                jobNumber = jobList[i].JobNumber
                 val total="select sum(sa.COL2) as tot from JobCreation jc inner join StockAudit sa on  sa.JobNumber= jc.JobNumber where sa.JobNumber=('${jobNumber}')"
                 val resultSet = statement.executeQuery(total)
                 if (resultSet.next())
