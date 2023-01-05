@@ -1,6 +1,6 @@
 package activity
 
-import adapter.AdapterRVList
+
 import adapter.JobAdapterRVList
 import android.app.ProgressDialog
 import android.content.ContentValues

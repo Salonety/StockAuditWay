@@ -24,7 +24,6 @@ class AdapterRVList(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.serialNo.text= "${position+1}"
-       // holder.itemName.text= list[position].itemName
         holder.JobNum.text= rvList[position].joblist
         holder.qty.text= rvList[position].qty.toString()
         holder.barCode.text= rvList[position].barCode
@@ -42,7 +41,7 @@ class AdapterRVList(
 
     open class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         val serialNo: TextView = itemView.findViewById(R.id.tvCountStockve)
-        //val itemName: TextView = itemView.findViewById(R.id.tvItemNameRv)
+        val txid: TextView = itemView.findViewById(R.id.txt_id)
         val qty: TextView = itemView.findViewById(R.id.adp_qty)
         val barCode: TextView = itemView.findViewById(R.id.adt_barcode)
         val date: TextView = itemView.findViewById(R.id.adt_date)

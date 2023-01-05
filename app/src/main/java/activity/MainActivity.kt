@@ -144,15 +144,15 @@ class MainActivity : AppCompatActivity() {
 
 
         //add qty button
-          add_qty.setOnClickListener {
-          qty = binding.edtQtymanual.text.toString().trim()
-          rvList.add(0, ModelRVList(qty, jobNumber, barCode, dateorg,exi))
-          binding.rvrecyclerView.adapter = AdapterRVList(this, rvList)
-          binding.tvcoutn.text = rvList.size.toString()
-
-
-
-      }
+//          add_qty.setOnClickListener {
+//          qty = binding.edtQtymanual.text.toString().trim()
+//          rvList.add(0, ModelRVList(ide,qty, jobNumber, barCode, dateorg,exi))
+//          binding.rvrecyclerView.adapter = AdapterRVList(this, rvList)
+//          binding.tvcoutn.text = rvList.size.toString()
+//
+//
+//
+//      }
 
   // edt qty focus
         edtQtymanual.setOnFocusChangeListener { _, hasFocus ->
@@ -350,9 +350,9 @@ class MainActivity : AppCompatActivity() {
         } else {
             myToast(this,"Please enter Job Number")
         }
-        rvList.add(0, ModelRVList(qty, jobNumber, barCode, dateorg,exi))
-        binding.rvrecyclerView.adapter = AdapterRVList(this, rvList)
-        binding.tvcoutn.text = rvList.size.toString()
+//        rvList.add(0, ModelRVList(qty, jobNumber, barCode, dateorg,exi))
+//        binding.rvrecyclerView.adapter = AdapterRVList(this, rvList)
+//        binding.tvcoutn.text = rvList.size.toString()
 
 
 
