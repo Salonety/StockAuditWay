@@ -29,8 +29,8 @@ class AdapterDemo(
         return MyViewHolder(LayoutInflater.from(context).inflate(R.layout.stockauditrv_item,parent,false))
 
     }
-    var a: Int =0
-    var code:Int=0
+
+    var codey:Int=0
 
 
 
@@ -60,8 +60,6 @@ class AdapterDemo(
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-
-        a=position
         holder.serialNo.text= "${position+1}"
         // holder.itemName.text= list[position].itemName
         holder.JobNum.text= rvtwoList[position].joblist
@@ -77,11 +75,14 @@ class AdapterDemo(
 
 
                     // Delete selected note from list
+
+                       rvtwoList.removeAt(position)
+                        notifyItemRemoved(position)
+                        notifyItemRangeChanged(position, rvtwoList.size)
+
+
                     (context as test_activity).rid()
-                    context.dele(code)
-                    rvtwoList.removeAt(a)
-                   notifyItemRemoved(a)
-                   notifyItemRangeChanged(a,rvtwoList.size)
+                    context.dele(codey)
 
 
 

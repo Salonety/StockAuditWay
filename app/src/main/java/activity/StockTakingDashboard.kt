@@ -20,6 +20,10 @@ class StockTakingDashboard : AppCompatActivity() {
         binding.cardJobcreation.setOnClickListener {
             startActivity(Intent(context, JobCreation::class.java))
         }
+        binding.cardMaterial.setOnClickListener{
+            startActivity(Intent(context, DemoActivity::class.java))
+
+        }
     }
 
 }

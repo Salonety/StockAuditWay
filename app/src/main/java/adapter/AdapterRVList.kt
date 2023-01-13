@@ -41,12 +41,12 @@ class AdapterRVList(
 
     open class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         val serialNo: TextView = itemView.findViewById(R.id.tvCountStockve)
-        val txid: TextView = itemView.findViewById(R.id.txt_id)
         val qty: TextView = itemView.findViewById(R.id.adp_qty)
         val barCode: TextView = itemView.findViewById(R.id.adt_barcode)
         val date: TextView = itemView.findViewById(R.id.adt_date)
         val JobNum:TextView=itemView.findViewById(R.id.JobNum)
         val exi:TextView=itemView.findViewById(R.id.yesno)
+
 
 
 

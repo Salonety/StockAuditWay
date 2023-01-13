@@ -6,6 +6,7 @@ import android.annotation.SuppressLint
 import android.app.ProgressDialog
 import android.content.ContentValues
 import android.content.Context
+import android.content.Intent
 import android.media.AudioManager
 import android.media.ToneGenerator
 import android.os.Bundle
@@ -15,14 +16,13 @@ import android.view.KeyEvent
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatButton
 import com.StockTaking.connection.SessionManager
 import com.StockTaking.model.ModelJobListSp
 import com.StockTaking.other.MethodFactory.Companion.myToast
 import com.crm_copy.connection.ConnectionClass
-import com.example.stockauditwayinfotech.R
 import com.example.stockauditwayinfotech.databinding.ActivityTestBinding
 import com.example.stockauditwayinfotech.model.Demo
 import com.example.stockauditwayinfotech.model.ModelRVList
@@ -38,7 +38,7 @@ import java.sql.Connection
 import java.sql.Statement
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
+
 
 class test_activity : AppCompatActivity() {
     private val context: Context = this@test_activity
@@ -52,7 +52,7 @@ class test_activity : AppCompatActivity() {
    private val rvtwoList= ArrayList<Demo>()
     private var barCode = ""
     private var scanBy = ""
-    private var code=0
+    private var codey=0
     private var qty = ""
     private var dateorg = ""
     private var gg = ""
@@ -64,16 +64,17 @@ class test_activity : AppCompatActivity() {
 
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_test)
         binding = ActivityTestBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         //connection class
         sessionManager = SessionManager(this)
         connectionClass = ConnectionClass(context)
 
-        dele(code)
+        dele(codey)
         //auto manual spinner
         binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(adapterView: AdapterView<*>?, view: View, i: Int, l: Long) {
@@ -137,6 +138,8 @@ class test_activity : AppCompatActivity() {
         }
 
 
+
+
         //add qty button
         add_qty.setOnClickListener {
             barCode = binding.edtscanbarcodeman.text.toString()
@@ -167,6 +170,7 @@ class test_activity : AppCompatActivity() {
 
 
 
+
       //functions
         fetchjobdatasp()
         focus()
@@ -175,9 +179,16 @@ class test_activity : AppCompatActivity() {
 
 
 
+        remain.setOnClickListener {
+            intent = Intent(applicationContext, Remainbarcode::class.java)
+            startActivity(intent)
+        }
+
+
 
     }//onCreate ends here
 
+   //function to get id
     fun rid() {
         if (::statement.isInitialized) {
             try {
@@ -198,7 +209,7 @@ class test_activity : AppCompatActivity() {
         }
 
     }
-
+   //for delete
     fun dele(code: Int) {
          if (::statement.isInitialized) {
              try {
@@ -217,8 +228,6 @@ class test_activity : AppCompatActivity() {
          }
 
     }
-
-
     //for manual check
     private fun checkISerialNumberty(barCode: String) {
         try {
@@ -239,17 +248,55 @@ class test_activity : AppCompatActivity() {
                 else {
                 val toneGen1 = ToneGenerator(AudioManager.STREAM_MUSIC, 100)
                 toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150)
-                    myToast(this, "Invalid Item Code")
-                setRecyx(barCode)
-                getallsum()
-                insertItemDetails()
-                binding.edtscanbarcodeman.text.clear()
+                myToast(this, "Invalid Item Code")
+                invam()
 
             }
         } catch (se: Exception) {
             Log.e("ERROR", se.message!!)
         }
     }
+
+    private fun invam() {
+
+        var invalidman= edtscanbarcodeman.text.toString()
+        try {
+            val query = //" select BarCode from [StockTaking] where BarCode=('${code}')"
+                "select BarCode from [StockTaking] where BarCode =('${invalidman}')"
+            val resultSet = statement.executeQuery(query)
+
+            if (resultSet.next()) {
+                //validation part
+                val BarCode = resultSet.getString("BarCode")
+                if (BarCode == invalidman) {
+                    val toneGen1 = ToneGenerator(AudioManager.STREAM_MUSIC, 100)
+                    toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150)
+                    myToast(this, "barcode already exists")
+                }
+            }
+            else {
+                if (barCode==""){
+
+                }
+                else {
+                    setRecyx(barCode)
+                    getallsum()
+                    insertItemDetails()
+                    binding.edtscanbarcodeman.text.clear()
+                }
+
+
+
+            }
+
+        } catch (se: Exception)
+        {
+            Log.e("ERROR", se.message!!)
+        }
+
+
+    }
+
     private fun setRecyx(barCode: String) {
         qty = binding.edtQtymanual.text.toString().trim()
         if (qty == "") {
@@ -259,7 +306,7 @@ class test_activity : AppCompatActivity() {
 
             rvtwoList.add(0, Demo("1",jobNumber,barCode,dateorg))
             binding.rvTrecyclerView.adapter=AdapterDemo(this,rvtwoList)
-            binding.tvcoutn.text = rvList.size.toString()
+            binding.tvcoutn.text = rvtwoList.size.toString()
             binding.edtQtymanual.text.clear()
 
 
@@ -302,6 +349,9 @@ class test_activity : AppCompatActivity() {
 
                 }
             }
+            if (barCode==""){
+
+            }
             else {
                 qty = binding.edtQtymanual.text.toString().trim()
                 if (qty == "") {
@@ -311,7 +361,7 @@ class test_activity : AppCompatActivity() {
 
                     rvtwoList.add(0, Demo("1",jobNumber,barCode,dateorg))
                     binding.rvTrecyclerView.adapter=AdapterDemo(this,rvtwoList)
-                    binding.tvcoutn.text = rvList.size.toString()
+                    binding.tvcoutn.text = rvtwoList.size.toString()
                     binding.edtQtymanual.text.clear()
 
 
@@ -323,7 +373,7 @@ class test_activity : AppCompatActivity() {
 
                     rvtwoList.add(0, Demo(qty,jobNumber,barCode,dateorg))
                     binding.rvTrecyclerView.adapter=AdapterDemo(this,rvtwoList)
-                    binding.tvcoutn.text = rvList.size.toString()
+                    binding.tvcoutn.text = rvtwoList.size.toString()
                     binding.edtQtymanual.text.clear()
 
 
@@ -429,10 +479,10 @@ class test_activity : AppCompatActivity() {
                 val toneGen1 = ToneGenerator(AudioManager.STREAM_MUSIC, 100)
                 toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150)
                 myToast(this, "Invalid Item Code")
-                setRecyclery(barCode)
-                getallsum()
-                insertItemDetails()
-                binding.edtscanbarcode.text.clear()
+                    //validation part
+                   inval()
+
+
 
             }
         } catch (se: Exception) {
@@ -440,6 +490,47 @@ class test_activity : AppCompatActivity() {
         }
 
     }
+
+    @SuppressLint("SuspiciousIndentation")
+    private fun inval() {
+           var invalid= edtscanbarcode.text.toString()
+                try {
+            val query = //" select BarCode from [StockTaking] where BarCode=('${code}')"
+                "select BarCode from [StockTaking] where BarCode =('${invalid}')"
+            val resultSet = statement.executeQuery(query)
+
+            if (resultSet.next()) {
+                //validation part
+                val BarCode = resultSet.getString("BarCode")
+                if (BarCode == invalid) {
+                    val toneGen1 = ToneGenerator(AudioManager.STREAM_MUSIC, 100)
+                    toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150)
+                    myToast(this, "barcode already exists")
+                }
+            }
+            else {
+                if (barCode==""){
+
+                }
+                else {
+                    setRecyclery(barCode)
+                    getallsum()
+                    insertItemDetails()
+                    binding.edtscanbarcode.text.clear()
+                }
+
+
+            }
+
+        } catch (se: Exception)
+        {
+            Log.e("ERROR", se.message!!)
+        }
+
+
+
+    }
+
     //for dupli in auto
     private fun checkDataCode(code: String,jobNumber:String) {
         try {
@@ -466,10 +557,15 @@ class test_activity : AppCompatActivity() {
                 }
             }
             else {
-                setRecyclerData(barCode)
-                getallsum()
-                insertItemDetails()
-                binding.edtscanbarcode.text.clear()
+                if (barCode==""){
+
+                }
+                else {
+                    setRecyclerData(barCode)
+                    getallsum()
+                    insertItemDetails()
+                    binding.edtscanbarcode.text.clear()
+                }
                 //binding.totalscannedQty.text.clear()
             }
 
@@ -494,6 +590,7 @@ class test_activity : AppCompatActivity() {
 
     }
     private fun setRecyclery(barCode: String) {
+
         if (sp_jobnum.getSelectedItem() != null) {
             sp_jobnum.getSelectedItem()
         } else {
@@ -502,6 +599,7 @@ class test_activity : AppCompatActivity() {
         rvList.add(0, ModelRVList("1", jobNumber, barCode, dateorg,"N"))
         binding.rvrecyclerView.adapter = AdapterRVList(this, rvList)
         binding.tvcoutn.text = rvList.size.toString()
+
         rvtwoList.add(0, Demo("1",jobNumber,barCode,dateorg))
         binding.rvTrecyclerView.adapter=AdapterDemo(this,rvtwoList)
         binding.tvcoutn.text=rvtwoList.size.toString()

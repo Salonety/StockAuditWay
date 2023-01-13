@@ -2,6 +2,7 @@ package activity
 
 import adapter.AdapterRVList
 import android.R
+import android.annotation.SuppressLint
 import android.app.ProgressDialog
 import android.content.ContentValues
 import android.content.ContentValues.TAG
@@ -263,6 +264,7 @@ class MainActivity : AppCompatActivity() {
 
     }
     //for getting job num in spinner
+    @SuppressLint("SuspiciousIndentation")
     private fun getJobNumber() {
        val quary = "select * from JobCreation"
     val resultSet = statement.executeQuery(quary)
@@ -357,6 +359,7 @@ class MainActivity : AppCompatActivity() {
 
 
     }
+
 }   //end of class
 
 

@@ -5,6 +5,8 @@
     <string name="stock_taking">Stock Taking</string>
     <string name="selected_item">Selected item:</string>
     <string name="this_is_a_custom_toast">This is a custom Toast</string>
+    <string name="remaining_list">Remaining List</string>
+    <string name="material">Material</string>
     <string-array name="Mode">
         <item>Automatic</item>
         <item>Manual</item>
